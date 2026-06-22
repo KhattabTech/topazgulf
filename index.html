@@ -5,457 +5,534 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- تحسين توافق Outlook -->
-  <title>Signature Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap"
-    rel="stylesheet" />
+  <title>Signature Generator - Topaz Gulf</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg-color: #09090b;
+      --card-bg: rgba(20, 20, 23, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --accent-color: #1884b2;
+      --accent-glow: rgba(24, 132, 178, 0.15);
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-ar: 'Cairo', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f0f4f8 0%, #d9e2f3 100%);
-      padding: 40px 45px;
+      font-family: var(--font-main);
+      background-color: var(--bg-color);
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(24, 132, 178, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(24, 132, 178, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+      padding: 40px 20px;
       margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #333;
+      justify-content: center;
+      color: var(--text-primary);
     }
 
-    .container {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    body[dir="rtl"] {
+      font-family: var(--font-ar), var(--font-main);
+    }
+
+    .app-container {
       width: 100%;
-      max-width: 520px;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
       position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    body[dir="rtl"] h1 {
+      font-weight: 700;
     }
 
     .language-toggle {
-      position: absolute;
-      top: 15px;
-      left: 15px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 99px;
+      padding: 8px 16px;
       cursor: pointer;
-      transition: opacity 0.3s;
-    }
-
-    .language-toggle img {
-      width: 32px;
-      height: 32px;
-      vertical-align: middle;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
     }
 
     .language-toggle:hover {
-      opacity: 0.7;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
     }
 
-    h2 {
-      text-align: center;
-      font-size: 26px;
+    .language-toggle img {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Bento Grid Layout */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .bento-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+
+    .bento-card.preview-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-color: rgba(24, 132, 178, 0.2);
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+
+    .card-title {
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 25px;
-      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
     }
 
     label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      font-size: 15px;
-      color: #34495e;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
     }
 
     input {
-      width: 100%;
-      padding: 12px;
-      box-sizing: border-box;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-family: inherit;
       font-size: 14px;
-      font-family: 'Poppins', sans-serif;
-      background-color: #fafafa;
-      transition: border-color 0.3s;
+      width: 100%;
     }
 
     input:focus {
-      border-color: #1884b2;
       outline: none;
-      background-color: #fff;
+      border-color: var(--accent-color);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    button[type='submit'] {
-      background-color: #1884b2;
+    .preview-container-wrapper {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 24px;
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .copy-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      background: var(--accent-color);
       color: white;
-      padding: 12px 30px;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 16px;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
-
-    button[type='submit']:hover {
-      background-color: #156a8f;
-    }
-
-    #signaturePreview {
-      margin: 25px auto;
-      padding: 15px;
-      border: 1px solid #e0e0e0;
       border-radius: 10px;
-      background: #ffffff;
-      max-width: 100%;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .copy-message {
-      color: white;
-      background-color: #27ae60;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      margin-top: 15px;
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      width: 80%;
-      max-width: 320px;
+      padding: 14px 24px;
+      font-size: 15px;
       font-weight: 600;
-      animation: fadeInOut 2s ease-in-out forwards;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
+    .btn:hover {
+      background: #1e9dce;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
 
-      10% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+    .btn:active {
+      transform: translateY(0);
+    }
 
-      90% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-primary);
+    }
 
-      100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-        display: none;
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
       body {
-        padding: 40px 35px;
-      }
-
-      .container {
-        padding: 15px;
-      }
-
-      h2 {
-        font-size: 22px;
-        margin-bottom: 20px;
-      }
-
-      input {
-        padding: 10px;
-        font-size: 13px;
-      }
-
-      button[type='submit'] {
-        padding: 10px 25px;
-        font-size: 15px;
-      }
-
-      #signaturePreview {
-        width: 93%;
-        padding: 10px;
-      }
-
-      .copy-message {
-        width: 90%;
-        max-width: 280px;
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      .language-toggle {
-        top: 10px;
-        left: 10px;
-      }
-
-      .language-toggle img {
-        width: 32px;
-        height: 32px;
+        padding: 20px 12px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <span class="language-toggle" id="languageToggle">
-      <img id="languageIcon" src="https://imgur.com/h5riSbC.png" alt="Language Toggle" />
-    </span>
-    <h2 id="title">Create Email Signature</h2>
-    <form id="signatureForm">
-      <div class="form-group">
-        <label id="employeeNameLabel">Employee Name:</label>
-        <input type="text" id="employeeName" value="Ahmed M Turaik" required />
+  <div class="app-container">
+    <header>
+      <h1 id="mainTitle">Signature Generator</h1>
+      <button class="language-toggle" id="languageToggle">
+        <img id="languageIcon" src="https://i.imgur.com/h5riSbC.png" alt="Lang" />
+        <span id="languageText">العربية</span>
+      </button>
+    </header>
+
+    <div class="bento-grid">
+      <!-- Form Panel -->
+      <div class="bento-card">
+        <h3 class="card-title" id="formTitle">Employee Details</h3>
+        <form id="signatureForm" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-group">
+              <label id="lblEmployeeName">Employee Name</label>
+              <input type="text" id="employeeName" value="Ahmed M Turaik" required />
+            </div>
+            <div class="form-group">
+              <label id="lblEmployeePosition">Position</label>
+              <input type="text" id="employeePosition" value="IT Manager" required />
+            </div>
+            <div class="form-group">
+              <label id="lblExtension">Extension (Ext.)</label>
+              <input type="text" id="extension" value="109" pattern="[0-9]+" />
+            </div>
+            <div class="form-group">
+              <label id="lblPhoneNumber">Phone Number (Optional)</label>
+              <input type="text" id="phoneNumber" value="966581452387" />
+            </div>
+            <div class="form-group">
+              <label id="lblWhatsappNumber">WhatsApp (Optional)</label>
+              <input type="text" id="whatsappNumber" value="966581452387" />
+            </div>
+            <div class="form-group">
+              <label id="lblEmailAddress">Email Address</label>
+              <input type="email" id="emailAddress" value="aturaik@topazgulf.com" required />
+            </div>
+            <div class="form-group full-width">
+              <label id="lblAddress">City / Country</label>
+              <input type="text" id="address" value="Jubail, Industrial City, Saudi Arabia" required />
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label id="employeePositionLabel">Position:</label>
-        <input type="text" id="employeePosition" value="IT Manager" required />
+
+      <!-- Preview Panel -->
+      <div class="bento-card preview-panel">
+        <div>
+          <h3 class="card-title" id="previewTitle">Live Preview</h3>
+          <div class="preview-container-wrapper">
+            <div id="signaturePreview"></div>
+          </div>
+        </div>
+
+        <div class="copy-actions">
+          <button class="btn" id="btnCopySignature">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span id="btnCopyText">Copy Signature</span>
+          </button>
+          <button class="btn btn-secondary" id="btnCopyHtml">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            <span id="btnCopyHtmlText">Copy HTML Code</span>
+          </button>
+        </div>
       </div>
-      <div class="form-group">
-        <label id="extensionLabel">Extension (Ext.):</label>
-        <input type="text" id="extension" value="109" pattern="[0-9]+" title="Must be numbers only" />
-      </div>
-      <div class="form-group">
-        <label id="phoneNumberLabel">Phone Number (Optional):</label>
-        <input type="text" id="phoneNumber" value="966581452387" />
-      </div>
-      <div class="form-group">
-        <label id="whatsappNumberLabel">WhatsApp Number (Optional):</label>
-        <input type="text" id="whatsappNumber" value="966581452387" />
-      </div>
-      <div class="form-group">
-        <label id="addressLabel">City / Country:</label>
-        <input type="text" id="address" value="Jubail, Industrial City, Saudi Arabia" required />
-      </div>
-      <div class="form-group">
-        <label id="emailAddressLabel">Email Address:</label>
-        <input type="email" id="emailAddress" value="aturaik@topazgulf.com" required />
-      </div>
-      <button type="submit" id="submitButton">Create Signature</button>
-    </form>
-    <div id="signaturePreview"></div>
-    <div class="copy-message" id="copyMessage">Copied Successfully!</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMessage">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+    <span id="toastText">Copied Successfully!</span>
   </div>
 
   <script>
-    // تعريف الترجمات
     const translations = {
       en: {
-        title: 'Create Email Signature',
-        employeeName: 'Employee Name:',
-        employeePosition: 'Position:',
-        extension: 'Extension (Ext.):',
-        phoneNumber: 'Phone Number (Optional):',
-        whatsappNumber: 'WhatsApp Number (Optional):',
-        address: 'City / Country:',
-        emailAddress: 'Email Address:',
-        submit: 'Create Signature',
-        copyMessage: 'Copied Successfully!'
+        mainTitle: 'Signature Generator',
+        formTitle: 'Employee Details',
+        previewTitle: 'Live Preview',
+        lblEmployeeName: 'Employee Name:',
+        lblEmployeePosition: 'Position:',
+        lblExtension: 'Extension (Ext.):',
+        lblPhoneNumber: 'Phone Number (Optional):',
+        lblWhatsappNumber: 'WhatsApp Number (Optional):',
+        lblEmailAddress: 'Email Address:',
+        lblAddress: 'City / Country:',
+        btnCopySignature: 'Copy Signature',
+        btnCopyHtml: 'Copy HTML Code',
+        toastCopied: 'Copied to clipboard!',
+        langBtnText: 'العربية',
+        dir: 'ltr'
       },
       ar: {
-        title: 'إنشاء توقيع بريد إلكتروني',
-        employeeName: 'اسم الموظف:',
-        employeePosition: 'الوظيفة:',
-        extension: 'التحويلة (Ext.):',
-        phoneNumber: 'رقم الهاتف (اختياري):',
-        whatsappNumber: 'رقم الواتساب (اختياري):',
-        address: 'المدينة / الدولة:',
-        emailAddress: 'البريد الإلكتروني:',
-        submit: 'إنشاء التوقيع',
-        copyMessage: 'تم النسخ بنجاح!'
+        mainTitle: 'مولد التواقيع الرقمية',
+        formTitle: 'بيانات الموظف',
+        previewTitle: 'معاينة حية',
+        lblEmployeeName: 'اسم الموظف:',
+        lblEmployeePosition: 'المسمى الوظيفي:',
+        lblExtension: 'رقم التحويلة:',
+        lblPhoneNumber: 'رقم الهاتف (اختياري):',
+        lblWhatsappNumber: 'رقم الواتساب (اختياري):',
+        lblEmailAddress: 'البريد الإلكتروني:',
+        lblAddress: 'المدينة / الدولة:',
+        btnCopySignature: 'نسخ التوقيع',
+        btnCopyHtml: 'نسخ كود HTML',
+        toastCopied: 'تم النسخ بنجاح!',
+        langBtnText: 'English',
+        dir: 'rtl'
       }
     }
 
-    // اكتشاف اللغة الافتراضية
-    let currentLang = navigator.language.startsWith('ar') ? 'ar' : 'en'
+    let currentLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
 
-    // دالة لتحديث اللغة والأيقونة
-    function updateLanguage(lang) {
-      currentLang = lang
-      document.getElementById('title').textContent = translations[lang].title
-      document.getElementById('employeeNameLabel').textContent =
-        translations[lang].employeeName
-      document.getElementById('employeePositionLabel').textContent =
-        translations[lang].employeePosition
-      document.getElementById('extensionLabel').textContent =
-        translations[lang].extension
-      document.getElementById('phoneNumberLabel').textContent =
-        translations[lang].phoneNumber
-      document.getElementById('whatsappNumberLabel').textContent =
-        translations[lang].whatsappNumber
-      document.getElementById('addressLabel').textContent = translations[lang].address
-      document.getElementById('emailAddressLabel').textContent =
-        translations[lang].emailAddress
-      document.getElementById('submitButton').textContent = translations[lang].submit
-      document.getElementById('copyMessage').textContent =
-        translations[lang].copyMessage
-      document.querySelector('.container').style.direction =
-        lang === 'ar' ? 'rtl' : 'ltr'
-
-      // تحديث الأيقونة بناءً على اللغة الحالية
-      const languageIcon = document.getElementById('languageIcon')
-      languageIcon.src =
-        lang === 'en'
-          ? 'https://i.imgur.com/h5riSbC.png'
-          : 'https://i.imgur.com/YFQUbaf.png'
-      languageIcon.alt = lang === 'en' ? 'Switch to Arabic' : 'Switch to English'
+    function setLanguage(lang) {
+      currentLang = lang;
+      const trans = translations[lang];
+      
+      document.body.setAttribute('dir', trans.dir);
+      document.getElementById('mainTitle').textContent = trans.mainTitle;
+      document.getElementById('formTitle').textContent = trans.formTitle;
+      document.getElementById('previewTitle').textContent = trans.previewTitle;
+      
+      document.getElementById('lblEmployeeName').textContent = trans.lblEmployeeName;
+      document.getElementById('lblEmployeePosition').textContent = trans.lblEmployeePosition;
+      document.getElementById('lblExtension').textContent = trans.lblExtension;
+      document.getElementById('lblPhoneNumber').textContent = trans.lblPhoneNumber;
+      document.getElementById('lblWhatsappNumber').textContent = trans.lblWhatsappNumber;
+      document.getElementById('lblEmailAddress').textContent = trans.lblEmailAddress;
+      document.getElementById('lblAddress').textContent = trans.lblAddress;
+      
+      document.getElementById('btnCopyText').textContent = trans.btnCopySignature;
+      document.getElementById('btnCopyHtmlText').textContent = trans.btnCopyHtml;
+      document.getElementById('languageText').textContent = trans.langBtnText;
+      
+      const languageIcon = document.getElementById('languageIcon');
+      languageIcon.src = lang === 'en' ? 'https://i.imgur.com/h5riSbC.png' : 'https://i.imgur.com/YFQUbaf.png';
+      
+      generateSignature();
     }
 
-    // تبديل اللغة عند النقر على الأيقونة
     document.getElementById('languageToggle').addEventListener('click', () => {
-      currentLang = currentLang === 'en' ? 'ar' : 'en'
-      updateLanguage(currentLang)
-    })
+      setLanguage(currentLang === 'en' ? 'ar' : 'en');
+    });
 
-    // تحديد اللغة الافتراضية عند التحميل
-    updateLanguage(currentLang)
-
-    // دالة بسيطة لتنظيف الأرقام
     function cleanPhoneNumber(number) {
-      if (!number) return ''
-      return number.replace(/\s+/g, '').replace(/^[+]/, '')
+      if (!number) return '';
+      return number.replace(/\s+/g, '').replace(/^[+]/, '');
     }
 
-    // إضافة + للروابط (لـ WhatsApp فقط)
     function formatNumberForLink(number) {
-      return '+' + cleanPhoneNumber(number)
+      return '+' + cleanPhoneNumber(number);
     }
 
-    // تنسيق النصوص لتجنب الروابط التلقائية
     function formatTextForHTML(text) {
-      if (!text) return ''
-      const characters = text.split('')
-      let html = ''
-      characters.forEach((char, index) => {
-        html += `<span style="color: #898795; text-decoration: none;">${char}</span>`
-        if (index < characters.length - 1) {
-          html += '‌' // Zero Width Non-Joiner
-        }
-      })
-      return html
+      if (!text) return '';
+      return text.split('').map((char, index, arr) => {
+        let span = `<span style="color: #898795; text-decoration: none;">${char}</span>`;
+        return index < arr.length - 1 ? span + '‌' : span;
+      }).join('');
     }
 
-    document
-      .getElementById('signatureForm')
-      .addEventListener('submit', function (event) {
-        event.preventDefault()
+    function generateSignature() {
+      const employeeName = document.getElementById('employeeName').value.trim() || 'Employee Name';
+      const employeePosition = document.getElementById('employeePosition').value.trim() || 'Position';
+      const extension = document.getElementById('extension').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const whatsappNumber = document.getElementById('whatsappNumber').value.trim();
+      const address = document.getElementById('address').value.trim() || 'City, Country';
+      const emailAddress = document.getElementById('emailAddress').value.trim() || 'email@topazgulf.com';
 
-        const lang = currentLang
-        const employeeName = document.getElementById('employeeName').value.trim()
-        const employeePosition = document
-          .getElementById('employeePosition')
-          .value.trim()
-        const extension = document.getElementById('extension').value.trim() || '' // Optional field
-        const phoneNumber = document.getElementById('phoneNumber').value.trim()
-        const whatsappNumber = document.getElementById('whatsappNumber').value.trim()
-        const address = document.getElementById('address').value.trim()
-        const emailAddress = document.getElementById('emailAddress').value.trim()
+      const mobileNumber = '966133418811';
+      const cleanWhatsappNumber = whatsappNumber ? formatNumberForLink(whatsappNumber) : '';
 
-        // التحقق من الحقول المطلوبة فقط
-        if (!employeeName || !employeePosition || !address || !emailAddress) {
-          alert(
-            lang === 'ar'
-              ? 'يرجى ملء جميع الحقول المطلوبة!'
-              : 'Please fill all required fields!'
-          )
-          return
-        }
+      const formattedMobileNumberHTML = formatTextForHTML(mobileNumber);
+      const formattedPhoneNumberHTML = phoneNumber ? formatTextForHTML(phoneNumber) : '';
+      const formattedEmailHTML = formatTextForHTML(emailAddress);
 
-        const mobileNumber = '966133418811'
-        const cleanPhoneNumber = phoneNumber ? formatNumberForLink(phoneNumber) : ''
-        const cleanWhatsappNumber = whatsappNumber
-          ? formatNumberForLink(whatsappNumber)
-          : ''
+      const mobileDisplay = `Tel: ${formattedMobileNumberHTML}${extension ? ` Ext. ${extension}` : ''}`;
+      const phoneDisplay = phoneNumber ? `Mobile: ${formattedPhoneNumberHTML}` : '';
 
-        const formattedMobileNumberHTML = formatTextForHTML(mobileNumber)
-        const formattedPhoneNumberHTML = phoneNumber
-          ? formatTextForHTML(phoneNumber)
-          : ''
-        const formattedEmailHTML = formatTextForHTML(emailAddress)
-
-        const mobileDisplay = `Tel: ${formattedMobileNumberHTML}${extension ? ` Ext. ${extension}` : ''
-          }`
-        const phoneDisplay = phoneNumber ? `Mobile: ${formattedPhoneNumberHTML}` : ''
-
-        let signatureHTML = `
-<table border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 12px; color: #898795; width: 90%; direction: ltr;">
+      let signatureHTML = `
+<table border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 12px; color: #898795; width: 320px; direction: ltr; border-collapse: collapse;">
   <tr>
-    <td style="padding-bottom: 1px;">
-      <!--[if gte mso 9]>
-      <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:270px;height:100px;">
-        <v:fill type="frame" src="https://i.postimg.cc/gcBPt5DQ/allwjw-alasasy.png" />
-        <v:textbox inset="0,0,0,0">
-      <![endif]-->
+    <td style="padding-bottom: 8px;">
       <a href="https://topazgulf.com" target="_blank" style="text-decoration: none;">
-        <img src="https://i.postimg.cc/gcBPt5DQ/allwjw-alasasy.png" alt="Topaz Gulf Logo" style="max-width: 100%; width: 270px; height: auto; display: block; border: 0;" />
+        <img src="https://i.postimg.cc/gcBPt5DQ/allwjw-alasasy.png" alt="Topaz Gulf Logo" style="width: 270px; height: auto; display: block; border: 0;" />
       </a>
-      <!--[if gte mso 9]>
-        </v:textbox>
-      </v:rect>
-      <![endif]-->
     </td>
   </tr>
   <tr>
-    <td style="font-family: Arial, sans-serif; font-size: 14px; color: #1884b2; font-weight: 600; padding-bottom: 5px;">
+    <td style="font-family: Arial, sans-serif; font-size: 14px; color: #1884b2; font-weight: 600; padding-bottom: 6px;">
       ${employeeName} | ${employeePosition}
     </td>
   </tr>
   <tr>
-    <td style="padding-bottom: 1px;">
-      <table border="0" cellpadding="0" cellspacing="0">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px;">
-            <img src="https://i.postimg.cc/2jXf9JwJ/ayqwnt-altlyfwn.png" alt="Phone Icon" style="width: 16px; height: 16px; vertical-align: middle; border: 0;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://i.postimg.cc/2jXf9JwJ/ayqwnt-altlyfwn.png" alt="Phone" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 12px; color: #898795;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${mobileDisplay}
           </td>
         </tr>
       </table>
     </td>
   </tr>
-`
+`;
 
-        if (phoneNumber) {
-          signatureHTML += `
+      if (phoneNumber) {
+        signatureHTML += `
   <tr>
-    <td style="padding-bottom: 1px;">
-      <table border="0" cellpadding="0" cellspacing="0">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px;">
-            <img src="https://i.postimg.cc/bYFjVMTB/ayqwnt-almwbayl.png" alt="Mobile Icon" style="width: 16px; height: 16px; vertical-align: middle; border: 0;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://i.postimg.cc/bYFjVMTB/ayqwnt-almwbayl.png" alt="Mobile" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 12px; color: #898795;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${phoneDisplay}
           </td>
         </tr>
       </table>
     </td>
   </tr>
-`
-        }
+`;
+      }
 
-        signatureHTML += `
+      signatureHTML += `
   <tr>
-    <td style="padding-bottom: 1px;">
-      <table border="0" cellpadding="0" cellspacing="0">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px;">
-            <img src="https://i.postimg.cc/c15Nkjmz/ayqwnt-alʿnwan.png" alt="PO Box Icon" style="width: 16px; height: 16px; vertical-align: middle; border: 0;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://i.postimg.cc/c15Nkjmz/ayqwnt-alʿnwan.png" alt="Address" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 12px; color: #898795;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${address}
           </td>
         </tr>
@@ -463,87 +540,107 @@
     </td>
   </tr>
   <tr>
-    <td style="padding-bottom: 1px;">
-      <table border="0" cellpadding="0" cellspacing="0">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px;">
+          <td style="padding-right: 8px; vertical-align: middle;">
             <a href="mailto:${emailAddress}" style="text-decoration: none;">
-              <img src="https://i.postimg.cc/mZ6Gpqw6/ayqwnt-alaymyl.png" alt="Email Icon" style="width: 16px; height: 16px; vertical-align: middle; border: 0;" />
+              <img src="https://i.postimg.cc/mZ6Gpqw6/ayqwnt-alaymyl.png" alt="Email" style="width: 14px; height: 14px; display: block; border: 0;" />
             </a>
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 12px; color: #898795;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${formattedEmailHTML}
           </td>
         </tr>
       </table>
     </td>
   </tr>
-`
+`;
 
-        if (cleanWhatsappNumber) {
-          signatureHTML += `
+      if (cleanWhatsappNumber) {
+        signatureHTML += `
   <tr>
     <td style="padding-bottom: 4px;">
-      <table border="0" cellpadding="0" cellspacing="0">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px;">
+          <td style="padding-right: 8px; vertical-align: middle;">
             <a href="https://wa.me/${cleanWhatsappNumber}" target="_blank" style="text-decoration: none;">
-              <img src="https://i.postimg.cc/L40MQ7TQ/ayqwnt-alwatsab.png" alt="WhatsApp Icon" style="width: 16px; height: 16px; vertical-align: middle; border: 0;" />
+              <img src="https://i.postimg.cc/L40MQ7TQ/ayqwnt-alwatsab.png" alt="WhatsApp" style="width: 14px; height: 14px; display: block; border: 0;" />
             </a>
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 12px; color: #898795;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             WhatsApp Me
           </td>
         </tr>
       </table>
     </td>
   </tr>
-`
-        }
+`;
+      }
 
-        signatureHTML += `
+      signatureHTML += `
   <tr>
-    <td>
-      <a href="https://topazgulf.com" target="_blank" style="font-family: Arial, sans-serif; font-size: 12px; color: #898795; text-decoration: none; background-color: #e6f0ff; padding: 4px 8px; border-radius: 12px; font-weight: 500;">
-        <img src="https://i.postimg.cc/8knVX3HK/ayqwnt-almwqʿ.png" alt="Website Icon" style="width: 12px; height: 12px; vertical-align: middle; border: 0; margin-right: 4px;" />
+    <td style="padding-top: 4px;">
+      <a href="https://topazgulf.com" target="_blank" style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; text-decoration: none; background-color: rgba(24, 132, 178, 0.1); padding: 4px 8px; border-radius: 6px; font-weight: 500; display: inline-block;">
+        <img src="https://i.postimg.cc/8knVX3HK/ayqwnt-almwqʿ.png" alt="Website" style="width: 10px; height: 10px; vertical-align: middle; border: 0; margin-right: 4px;" />
         <span style="vertical-align: middle;">topazgulf.com</span>
       </a>
     </td>
   </tr>
 </table>
-`
+`;
 
-        const previewDiv = document.getElementById('signaturePreview')
-        previewDiv.innerHTML = signatureHTML
+      document.getElementById('signaturePreview').innerHTML = signatureHTML;
+    }
 
-        const range = document.createRange()
-        range.selectNodeContents(previewDiv)
-        const selection = window.getSelection()
-        selection.removeAllRanges()
-        selection.addRange(range)
+    // Realtime changes
+    const inputs = ['employeeName', 'employeePosition', 'extension', 'phoneNumber', 'whatsappNumber', 'emailAddress', 'address'];
+    inputs.forEach(id => {
+      document.getElementById(id).addEventListener('input', generateSignature);
+    });
 
-        try {
-          const successful = document.execCommand('copy')
-          if (successful) {
-            const copyMessage = document.getElementById('copyMessage')
-            copyMessage.style.display = 'block'
-            setTimeout(() => {
-              copyMessage.style.display = 'none'
-            }, 2000)
-          } else {
-            throw new Error('Copy failed')
-          }
-        } catch (err) {
-          console.error('Copy failed: ', err)
-          alert(
-            lang === 'ar'
-              ? 'يرجى نسخ التوقيع يدويًا من المعاينة.'
-              : 'Please copy the signature manually from the preview.'
-          )
+    // Copy Toast helper
+    function showToast() {
+      const toast = document.getElementById('toastMessage');
+      toast.querySelector('span').textContent = translations[currentLang].toastCopied;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Copy Signature Rich Text (for Outlook / Gmail client paste)
+    document.getElementById('btnCopySignature').addEventListener('click', () => {
+      const previewDiv = document.getElementById('signaturePreview');
+      const range = document.createRange();
+      range.selectNodeContents(previewDiv);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast();
         }
+      } catch (err) {
+        console.error(err);
+      }
+      selection.removeAllRanges();
+    });
 
-        selection.removeAllRanges()
-      })
+    // Copy HTML Source Code
+    document.getElementById('btnCopyHtml').addEventListener('click', () => {
+      const htmlContent = document.getElementById('signaturePreview').innerHTML;
+      navigator.clipboard.writeText(htmlContent.trim()).then(() => {
+        showToast();
+      }).catch(err => {
+        console.error(err);
+      });
+    });
+
+    // Initialize default lang
+    setLanguage(currentLang);
   </script>
 </body>
 
