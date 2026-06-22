@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-color: #09090b;
-      --card-bg: rgba(20, 20, 23, 0.6);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text-primary: #f4f4f5;
-      --text-secondary: #a1a1aa;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: rgba(15, 23, 42, 0.08);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
       --accent-color: #1884b2;
-      --accent-glow: rgba(24, 132, 178, 0.15);
+      --accent-glow: rgba(24, 132, 178, 0.08);
       --font-main: 'Plus Jakarta Sans', sans-serif;
       --font-ar: 'Cairo', sans-serif;
     }
@@ -29,8 +29,8 @@
       font-family: var(--font-main);
       background-color: var(--bg-color);
       background-image: 
-        radial-gradient(circle at 20% 20%, rgba(24, 132, 178, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(24, 132, 178, 0.08) 0%, transparent 50%);
+        radial-gradient(circle at 20% 20%, rgba(24, 132, 178, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(24, 132, 178, 0.04) 0%, transparent 50%);
       background-attachment: fixed;
       padding: 40px 20px;
       margin: 0;
@@ -67,7 +67,7 @@
       font-size: 32px;
       font-weight: 700;
       margin: 0;
-      background: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);
+      background: linear-gradient(180deg, #0f172a 0%, #334155 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.02em;
@@ -78,7 +78,7 @@
     }
 
     .language-toggle {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(15, 23, 42, 0.04);
       border: 1px solid var(--card-border);
       border-radius: 99px;
       padding: 8px 16px;
@@ -92,8 +92,8 @@
     }
 
     .language-toggle:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.08);
+      border-color: rgba(15, 23, 42, 0.15);
       transform: translateY(-2px);
     }
 
@@ -112,13 +112,12 @@
 
     .bento-card {
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
       padding: 30px;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
 
     .bento-card::before {
@@ -128,7 +127,7 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.05), transparent);
     }
 
     .bento-card.preview-panel {
@@ -136,7 +135,7 @@
       flex-direction: column;
       justify-content: space-between;
       border-color: rgba(24, 132, 178, 0.2);
-      box-shadow: 0 0 40px var(--accent-glow);
+      box-shadow: 0 10px 40px -10px var(--accent-glow);
     }
 
     .card-title {
@@ -174,7 +173,7 @@
     }
 
     input {
-      background: rgba(0, 0, 0, 0.2);
+      background: #f8fafc;
       border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 12px 16px;
@@ -187,13 +186,13 @@
     input:focus {
       outline: none;
       border-color: var(--accent-color);
-      background: rgba(0, 0, 0, 0.4);
+      background: #ffffff;
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
     .preview-container-wrapper {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px dashed rgba(255, 255, 255, 0.08);
+      background: #f8fafc;
+      border: 1px dashed rgba(15, 23, 42, 0.1);
       border-radius: 12px;
       padding: 24px;
       min-height: 260px;
@@ -202,6 +201,7 @@
       justify-content: center;
       margin-bottom: 24px;
       overflow-x: auto;
+      width: 100%;
     }
 
     .copy-actions {
@@ -236,14 +236,14 @@
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: #f1f5f9;
       border: 1px solid var(--card-border);
       color: var(--text-primary);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: #e2e8f0;
+      border-color: rgba(15, 23, 42, 0.15);
     }
 
     /* Toast Notification */
@@ -281,12 +281,24 @@
     @media (max-width: 600px) {
       .form-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
       .form-group.full-width {
         grid-column: span 1;
       }
       body {
         padding: 20px 12px;
+      }
+      .bento-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      .preview-container-wrapper {
+        padding: 12px;
+        min-height: auto;
       }
     }
   </style>
