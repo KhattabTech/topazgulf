@@ -373,6 +373,7 @@
         </div>
       </div>
     </div>
+    <footer id="pageFooter" style="text-align: center; font-size: 11px; color: var(--text-secondary); margin-top: 10px; opacity: 0.7; letter-spacing: 0.03em;"></footer>
   </div>
 
   <div class="toast" id="toastMessage">
@@ -397,6 +398,7 @@
         btnCopyHtml: 'Copy HTML Code',
         toastCopied: 'Copied to clipboard!',
         langBtnText: 'العربية',
+        footerText: 'Created by <a href="https://wa.me/20114885388" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Khattab</a>',
         dir: 'ltr'
       },
       ar: {
@@ -414,6 +416,7 @@
         btnCopyHtml: 'نسخ كود HTML',
         toastCopied: 'تم النسخ بنجاح!',
         langBtnText: 'English',
+        footerText: 'تم الإنشاء بواسطة <a href="https://wa.me/20114885388" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Khattab</a>',
         dir: 'rtl'
       }
     }
@@ -440,6 +443,7 @@
       document.getElementById('btnCopyText').textContent = trans.btnCopySignature;
       document.getElementById('btnCopyHtmlText').textContent = trans.btnCopyHtml;
       document.getElementById('languageText').textContent = trans.langBtnText;
+      document.getElementById('pageFooter').innerHTML = trans.footerText;
       
       const languageIcon = document.getElementById('languageIcon');
       languageIcon.src = lang === 'en' ? 'https://i.imgur.com/h5riSbC.png' : 'https://i.imgur.com/YFQUbaf.png';
