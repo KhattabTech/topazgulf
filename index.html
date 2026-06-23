@@ -307,10 +307,7 @@
 <body>
   <div class="app-container">
     <header>
-      <div style="display: flex; align-items: center; gap: 15px;">
-        <img src="logo.png" alt="Topaz Gulf" style="height: 48px; width: auto;" />
-        <h1 id="mainTitle">Signature Generator</h1>
-      </div>
+      <img src="logo.png" alt="Topaz Gulf" style="height: 48px; width: auto;" />
       <button class="language-toggle" id="languageToggle">
         <img id="languageIcon" src="https://i.imgur.com/h5riSbC.png" alt="Lang" />
         <span id="languageText">العربية</span>
@@ -402,7 +399,6 @@
   <script>
     const translations = {
       en: {
-        mainTitle: 'Signature Generator',
         formTitle: 'Employee Details',
         previewTitle: 'Live Preview',
         lblEmployeeName: 'Employee Name:',
@@ -421,7 +417,6 @@
         dir: 'ltr'
       },
       ar: {
-        mainTitle: 'مولد التواقيع الرقمية',
         formTitle: 'بيانات الموظف',
         previewTitle: 'معاينة حية',
         lblEmployeeName: 'اسم الموظف:',
@@ -448,7 +443,6 @@
       const trans = translations[lang];
       
       document.body.setAttribute('dir', trans.dir);
-      document.getElementById('mainTitle').textContent = trans.mainTitle;
       document.getElementById('formTitle').textContent = trans.formTitle;
       document.getElementById('previewTitle').textContent = trans.previewTitle;
       
