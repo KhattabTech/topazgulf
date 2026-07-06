@@ -235,7 +235,7 @@
     }
 
     .preview-container-wrapper {
-      background: #f8fafc;
+      background: transparent;
       border: 1px dashed rgba(15, 23, 42, 0.1);
       border-radius: 12px;
       padding: 24px;
@@ -561,27 +561,27 @@
       const phoneDisplay = phoneNumber ? `Mobile: ${formattedPhoneNumberHTML}` : '';
 
       let signatureHTML = `
-<table align="left" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 12px; color: #898795; width: 320px; direction: ltr; border-collapse: collapse; background-color: transparent;">
+<table border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 12px; color: #898795; width: 320px; direction: ltr; border-collapse: collapse; margin-left: 0px !important; margin-right: auto !important; float: none !important; clear: both;">
   <tr>
-    <td style="padding-bottom: 8px; background-color: transparent;">
-      <a href="https://topazgulf.com" target="_blank" style="text-decoration: none; background-color: transparent;">
-        <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/main-logo.png" alt="Topaz Gulf Logo" style="width: 270px; height: auto; display: block; border: 0; background-color: transparent;" />
+    <td style="padding-bottom: 8px;">
+      <a href="https://topazgulf.com" target="_blank" style="text-decoration: none;">
+        <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/main-logo.png" alt="Topaz Gulf Logo" style="width: 270px; height: auto; display: block; border: 0;" />
       </a>
     </td>
   </tr>
   <tr>
-    <td style="font-family: Arial, sans-serif; font-size: 14px; color: #1884b2; font-weight: 600; padding-bottom: 6px; background-color: transparent;">
+    <td style="font-family: Arial, sans-serif; font-size: 14px; color: #1884b2; font-weight: 600; padding-bottom: 6px;">
       ${employeeName} | ${employeePosition}
     </td>
   </tr>
   <tr>
-    <td style="padding-bottom: 2px; background-color: transparent;">
-      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; background-color: transparent;">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px; vertical-align: middle; background-color: transparent;">
-            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/phone-icon.png" alt="Phone" style="width: 14px; height: 14px; display: block; border: 0; background-color: transparent;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/phone-icon.png" alt="Phone" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle; background-color: transparent;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${mobileDisplay}
           </td>
         </tr>
@@ -593,13 +593,13 @@
       if (phoneNumber) {
         signatureHTML += `
   <tr>
-    <td style="padding-bottom: 2px; background-color: transparent;">
-      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; background-color: transparent;">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px; vertical-align: middle; background-color: transparent;">
-            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/mobile-icon.png" alt="Mobile" style="width: 14px; height: 14px; display: block; border: 0; background-color: transparent;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/mobile-icon.png" alt="Mobile" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle; background-color: transparent;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${phoneDisplay}
           </td>
         </tr>
@@ -611,13 +611,13 @@
 
       signatureHTML += `
   <tr>
-    <td style="padding-bottom: 2px; background-color: transparent;">
-      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; background-color: transparent;">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px; vertical-align: middle; background-color: transparent;">
-            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/address-icon.png" alt="Address" style="width: 14px; height: 14px; display: block; border: 0; background-color: transparent;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/address-icon.png" alt="Address" style="width: 14px; height: 14px; display: block; border: 0;" />
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle; background-color: transparent;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${address}
           </td>
         </tr>
@@ -625,15 +625,15 @@
     </td>
   </tr>
   <tr>
-    <td style="padding-bottom: 2px; background-color: transparent;">
-      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; background-color: transparent;">
+    <td style="padding-bottom: 2px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px; vertical-align: middle; background-color: transparent;">
-            <a href="mailto:${emailAddress}" style="text-decoration: none; background-color: transparent;">
-              <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/email-icon.png" alt="Email" style="width: 14px; height: 14px; display: block; border: 0; background-color: transparent;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <a href="mailto:${emailAddress}" style="text-decoration: none;">
+              <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/email-icon.png" alt="Email" style="width: 14px; height: 14px; display: block; border: 0;" />
             </a>
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle; background-color: transparent;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             ${formattedEmailHTML}
           </td>
         </tr>
@@ -645,15 +645,15 @@
       if (cleanWhatsappNumber) {
         signatureHTML += `
   <tr>
-    <td style="padding-bottom: 4px; background-color: transparent;">
-      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; background-color: transparent;">
+    <td style="padding-bottom: 4px;">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
         <tr>
-          <td style="padding-right: 8px; vertical-align: middle; background-color: transparent;">
-            <a href="https://wa.me/${cleanWhatsappNumber}" target="_blank" style="text-decoration: none; background-color: transparent;">
-              <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/whatsapp-icon.png" alt="WhatsApp" style="width: 14px; height: 14px; display: block; border: 0; background-color: transparent;" />
+          <td style="padding-right: 8px; vertical-align: middle;">
+            <a href="https://wa.me/${cleanWhatsappNumber}" target="_blank" style="text-decoration: none;">
+              <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/whatsapp-icon.png" alt="WhatsApp" style="width: 14px; height: 14px; display: block; border: 0;" />
             </a>
           </td>
-          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle; background-color: transparent;">
+          <td style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; line-height: 14px; vertical-align: middle;">
             WhatsApp Me
           </td>
         </tr>
@@ -665,9 +665,9 @@
 
       signatureHTML += `
   <tr>
-    <td style="padding-top: 4px; background-color: transparent;">
-      <a href="https://topazgulf.com" target="_blank" style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; text-decoration: none; background-color: transparent; border: 1px solid rgba(24, 132, 178, 0.25); padding: 4px 8px; border-radius: 6px; font-weight: 500; display: inline-block;">
-        <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/website-icon.png" alt="Website" style="width: 10px; height: 10px; vertical-align: middle; border: 0; margin-right: 4px; background-color: transparent;" />
+    <td style="padding-top: 4px;">
+      <a href="https://topazgulf.com" target="_blank" style="font-family: Arial, sans-serif; font-size: 11px; color: #898795; text-decoration: none; border: 1px solid rgba(24, 132, 178, 0.25); padding: 4px 8px; border-radius: 6px; font-weight: 500; display: inline-block;">
+        <img src="https://lbxcvaosseqfqkpriwnv.supabase.co/storage/v1/object/public/signatures/website-icon.png" alt="Website" style="width: 10px; height: 10px; vertical-align: middle; border: 0; margin-right: 4px;" />
         <span style="vertical-align: middle;">topazgulf.com</span>
       </a>
     </td>
