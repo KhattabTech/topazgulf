@@ -697,6 +697,30 @@
     // Copy Signature Rich Text (for Outlook / Gmail client paste)
     document.getElementById('btnCopySignature').addEventListener('click', () => {
       const previewDiv = document.getElementById('signaturePreview');
+      const htmlContent = previewDiv.innerHTML;
+      const plainText = previewDiv.innerText;
+
+      if (navigator.clipboard && window.ClipboardItem) {
+        const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+        const textBlob = new Blob([plainText], { type: 'text/plain' });
+        const data = [
+          new ClipboardItem({
+            'text/html': htmlBlob,
+            'text/plain': textBlob
+          })
+        ];
+        navigator.clipboard.write(data).then(() => {
+          showToast();
+        }).catch(err => {
+          console.error('Clipboard API failed, falling back to selection copy:', err);
+          fallbackCopy(previewDiv);
+        });
+      } else {
+        fallbackCopy(previewDiv);
+      }
+    });
+
+    function fallbackCopy(previewDiv) {
       const range = document.createRange();
       range.selectNodeContents(previewDiv);
       const selection = window.getSelection();
@@ -712,7 +736,7 @@
         console.error(err);
       }
       selection.removeAllRanges();
-    });
+    }
 
     // Copy HTML Source Code
     document.getElementById('btnCopyHtml').addEventListener('click', () => {
